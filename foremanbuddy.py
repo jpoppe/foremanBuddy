@@ -2,19 +2,18 @@
 
 # Copyright 2012 Jasper Poppe <jgpoppe@gmail.com>
 # Copyright 2012 eBuddy (http://www.eBuddy.com)
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 
 __author__ = 'Jasper Poppe <jgpoppe@gmail.com>'
 __copyright__ = 'Copyright (c) 2012 Jasper Poppe/eBuddy'
@@ -24,6 +23,7 @@ __version__ = '0.8.0 beta'
 __maintainer__ = 'Jasper Poppe'
 __email__ = 'jgpoppe@gmail.com'
 __status__ = 'beta'
+
 
 import argparse
 import base64
@@ -96,7 +96,7 @@ class HostObject:
 
 
 class HostComputeObject:
-    
+
     def __init__(self):
         """initialize object variables"""
         self.cpus = None
@@ -169,7 +169,7 @@ class SubnetObject:
         self.domain_ids = None
 
 
-class HostGroupObject: 
+class HostGroupObject:
 
     def __init__(self):
         """initialize object variables"""
@@ -309,7 +309,7 @@ class FormatData:
             align = max(imap(len, data)) + 1
             for key, value in data.items():
                 if type(value) == dict:
-                    value =  self.__dict_to_line(value)
+                    value = self.__dict_to_line(value)
                 result.append('{0:{1}}: {2}'.format(key, align, value))
         return result
 
@@ -348,7 +348,6 @@ class FormatData:
                     print('')
         else:
             self.__format(data)
-
 
     def __dict_to_line(self, data):
         """convert dictionary to one line string"""
@@ -417,7 +416,7 @@ def json_request(path, method='GET', data='', output='bare'):
         print('debug: method "%s"' % method)
         if json_data and json_data != '""':
             print('debug: json data "%s"' % json_data)
-    
+
     try:
         response = urllib2.urlopen(request)
     except urllib2.HTTPError as err:
@@ -499,7 +498,7 @@ def args_to_dict(args, attrs):
             setattr(attrs, key, value)
 
     data = {}
-    data.update((key, value[0]) for key, value in 
+    data.update((key, value[0]) for key, value in
         attrs.__dict__.iteritems() if value)
 
     for key, value in data.items():
@@ -526,7 +525,7 @@ class Info:
             output = 'pretty'
         self._query(args, output)
 
-    def ids(self,args):
+    def ids(self, args):
         """print ids"""
         self._query(args, 'ids')
 
@@ -554,9 +553,9 @@ class PTable:
 
         if args.os_family:
             data.os_family = args.os_family[0]
-        
+
         json_data = {}
-        json_data.update((key, value) for key, value in 
+        json_data.update((key, value) for key, value in
             vars(data).iteritems() if value)
         return json_data
 
@@ -592,7 +591,7 @@ class PuppetClass:
 
         if args.operatingsystem_id:
             json_data['operatingsystem_id'] = args.operatingsystem_id[0]
-        
+
         return json_data
 
     def modify(self, args):
@@ -612,7 +611,8 @@ class PuppetClass:
         #path = 'puppetclasses/import_environments?proxy=' + args.proxy_id[0]
         #path = 'puppetclasses/obsolete_and_new?proxy=' + args.proxy_id[0]
         #json_request(path, 'GET')
-        #http://overlord001.b.c.m.e:3000/puppetclasses/import_environments?proxy=1-overlord001-b-c-m-e
+        #http://overlord:3000/puppetclasses/import_environments
+        #?proxy=1-overlord001-b-c-m-e
 
 
 class Template:
@@ -650,16 +650,17 @@ class Template:
         if args.operatingsystem_ids:
             operatingsystem_ids = args.operatingsystem_ids[0].split(',')
             data.operatingsystem_ids = operatingsystem_ids
-        
+
         json_data = {}
-        json_data.update((key, value) for key, value in 
+        json_data.update((key, value) for key, value in
             vars(data).iteritems() if value)
         return json_data
 
     def add(self, args):
         """add a template"""
         json_data = self.__add_modify(args)
-        json_request('config_templates', 'POST', {'config_template': json_data})
+        json_request('config_templates', 'POST',
+            {'config_template': json_data})
 
     def modify(self, args):
         """modify a template"""
@@ -708,13 +709,15 @@ class Host:
             path = os.path.join('hosts', 'disabled')
             json_request(path, output='pretty')
         elif args.puppetclasses:
-            path = os.path.join('hosts', args.puppetclasses[0], 'puppetclasses')
+            path = os.path.join('hosts', args.puppetclasses[0],
+                'puppetclasses')
             json_request(path, output='pretty')
         elif args.reports:
             path = os.path.join('hosts', args.reports[0], 'reports')
             json_request(path, output='pretty')
         elif args.report_last:
-            path = os.path.join('hosts', args.report_last[0], 'reports', 'last')
+            path = os.path.join('hosts', args.report_last[0], 'reports',
+                'last')
             json_request(path, output='pretty')
         elif args.pxe_config:
             path = os.path.join('hosts', args.pxe_config[0], 'pxe_config')
@@ -745,7 +748,7 @@ class Host:
         nics_attributes = {
             'new_nics': {
                 '_delete': '', 'bridge': ''
-            }, 
+            },
             '': {
                 '_delete': '',
                 'bridge': data_compute['bridge']
@@ -805,7 +808,7 @@ class Host:
             'host_parameters_attributes', 'host_parameter', 'host_parameters')
 
 
-class HostGroup: 
+class HostGroup:
     """manage host groups"""
 
     def add(self, args):
@@ -838,12 +841,15 @@ class HostGroup:
     def delete_parameter(self, args):
         """delete a host group parameter"""
         delete_parameter(args, 'hostgroups', 'hostgroup', HostGroupObject(),
-            'group_parameters_attributes', 'group_parameter', 'group_parameters')
+            'group_parameters_attributes', 'group_parameter',
+            'group_parameters')
 
     def modify_parameter(self, args):
         """modify a host group parameter"""
         modify_parameter(args, 'hostgroups', 'hostgroup', HostGroupObject(),
-            'group_parameters_attributes', 'group_parameter', 'group_parameters')
+            'group_parameters_attributes', 'group_parameter',
+            'group_parameters')
+
 
 def _query(resource, target):
     """query resource data"""
@@ -883,7 +889,7 @@ def modify_parameter(args, resource, target, class_object, attributes,
         if data[description]['name'] == args.key[0]:
             parameters[index][description]['value'] = args.value[0]
         data_attributes[index] = parameters[index][description]
-    
+
     data_attributes = {attributes: data_attributes}
     path = os.path.join(resource, args.target[0])
     json_request(path, 'PUT', {target: data_attributes})
@@ -977,7 +983,6 @@ class Subnet:
         data = self.__add_modify(args)
         path = os.path.join('subnets', args.id[0])
         json_request(path, 'PUT', {'subnet': data})
-
 
     def delete(self, args):
         """delete a subnet"""
@@ -1245,7 +1250,7 @@ def argument_parser():
 
     # info
     parse_info = Info()
-    
+
     parser_info = subparsers.add_parser('info',
         help='list info about resources', formatter_class=RawTextHelpFormatter)
     parser_info.add_argument('-b', '--bare_output', action='store_true',
@@ -1832,7 +1837,7 @@ def argument_parser():
     if args.debug:
         global DEBUG
         DEBUG = True
-    
+
     delattr(args, 'foreman_password')
     delattr(args, 'foreman_user')
     delattr(args, 'foreman_url')
