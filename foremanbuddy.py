@@ -93,6 +93,7 @@ class HostObject:
         self.sp_subnet_id = None
         self.subnet_id = None
         self.compute_resource_id = None
+        self.puppetclass_ids = None
 
 
 class HostComputeObject:
