@@ -43,6 +43,8 @@ if os.path.isfile(config_file_home):
     config_file = config_file_home
 elif os.path.isfile('/etc/foremanbuddy/foremanbuddy.cfg'):
     config_file = '/etc/foremanbuddy/foremanbuddy.cfg'
+elif os.path.isfile('/usr/local/etc/foremanbuddy/foremanbuddy.cfg'):
+    config_file = '/urs/local/etc/foremanbuddy/foremanbuddy.cfg'
 else:
     config_file = 'foremanbuddy.cfg'
 
