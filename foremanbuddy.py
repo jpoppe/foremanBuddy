@@ -315,6 +315,7 @@ class FormatData:
         return result
 
     def __format(self, data):
+        """format data to a nice readable output"""
         data = [data[item] for item in data]
         for item in data:
             if type(item) == list:
@@ -342,6 +343,7 @@ class FormatData:
                         print('{0:{1}}: {2}').format(key, align, value)
 
     def pretty(self, data):
+        """prettify output"""
         if type(data) == list:
             for index, result in enumerate(data):
                 self.__format(result)
@@ -362,6 +364,7 @@ class FormatData:
         return result
 
     def __format_value(self, data):
+        """format output for a list or dictionary"""
         values = []
         for item in data:
             if type(item) == list:
@@ -371,6 +374,7 @@ class FormatData:
         return values
 
     def pretty_list(self, data):
+        """prettify a the output of a list"""
         align = max(imap(len, data))
         for index, result in enumerate(data):
             for key, value in result.items():
@@ -386,6 +390,7 @@ class FormatData:
                 print('')
 
     def uuids(self, data):
+        """prettify the output of UUIDs"""
         names = [item['name'] for item in data]
         align = max(imap(len, names))
         for item in data:
@@ -677,6 +682,7 @@ class Template:
     def build_pxe_default(self, args):
         path = os.path.join('config_templates', 'build_pxe_default')
         json_request(path, 'GET')
+
 
 class Host:
     """manage hosts"""
