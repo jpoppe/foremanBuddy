@@ -329,9 +329,12 @@ class FormatData:
 
             for key, value in item.items():
                 if type(value) == list:
-                    value = [entry.values()[0] for entry in value]
-                    value = [self.__omit_data(entry) for entry in value]
-                    value = [self.__dict_to_line(entry) for entry in value]
+                    if type(value[0]) != dict:
+                        pass
+                    else:
+                        value = [entry.values()[0] for entry in value]
+                        value = [self.__omit_data(entry) for entry in value]
+                        value = [self.__dict_to_line(entry) for entry in value]
                     self.__print_parameters(key, value, align)
                 elif type(value) == dict:
                     value = [entry for entry in self.prettify_dict(value)]
