@@ -1,3 +1,10 @@
+NOTICE
+======
+
+foremanBuddy is not in development anymore!! The code could be much more dynamic, cleaner, etc.. But it was really quickly hacked together to get the job done (and it did the job pretty well for my use case), probably there are currently better solutions out there. I don't know, I have switched jobs and lost my interest in Foreman since we use different solutions at the company I am currently working for.
+
+If foremanBuddy works for you, just keep using it but do not expect any updates from me ;)
+
 License
 =======
 
